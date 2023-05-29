@@ -38,10 +38,13 @@ class HatParserPass extends AbstractParserPass
                     ]);
                 }
 
+                $next = $stream->next();
+                assert($next !== null);
+
                 $result[] = new BeginNode(
                     $this
                             ->parser
-                            ->parseStream(new Stream(array($stream->next())))
+                            ->parseStream(new Stream([$next]))
                             ->input()
                 );
             } else {

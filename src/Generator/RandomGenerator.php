@@ -48,7 +48,7 @@ class RandomGenerator extends AbstractGenerator
         }
     }
 
-    protected function printNode(NodeInterface $node): ?string
+    protected function printNode(NodeInterface $node): string
     {
         if ($node instanceof AlternativeNode) {
             return $this->printAlternativeNode($node);
@@ -66,7 +66,7 @@ class RandomGenerator extends AbstractGenerator
             return $this->printEndNode($node);
         }
 
-        return null;
+        throw new ParserException();
     }
 
     protected function printAlternativeNode(AlternativeNode $node): string
@@ -127,9 +127,9 @@ class RandomGenerator extends AbstractGenerator
     protected function printRepetitionNode(RepetitionNode $node): string
     {
         if ($node->getMax() !== null) {
-            $count = mt_rand($node->getMin(), $node->getMax());
+            $count = mt_rand($node->getMin() ?? 0, $node->getMax());
         } else {
-            $count = mt_rand($node->getMin(), $node->getMin() + 5);
+            $count = mt_rand($node->getMin() ?? 0, ($node->getMin() ?? 0) + 5);
         }
 
         $output = '';
