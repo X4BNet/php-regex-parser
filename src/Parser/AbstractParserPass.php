@@ -4,23 +4,14 @@ namespace RegexParser\Parser;
 
 abstract class AbstractParserPass implements ParserPassInterface
 {
-    /**
-     * @var Parser
-     */
-    protected $parser;
+    protected Parser $parser;
 
-    /**
-     * @param Parser $parser
-     */
-    public function setParser(Parser $parser)
+    public function setParser(Parser $parser): void
     {
         $this->parser = $parser;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         $className = explode('\\', get_class($this));
 

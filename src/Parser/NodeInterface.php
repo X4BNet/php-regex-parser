@@ -4,10 +4,7 @@ namespace RegexParser\Parser;
 
 interface NodeInterface
 {
-    /**
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 
     /**
      * @return mixed
@@ -15,22 +12,13 @@ interface NodeInterface
     public function getValue();
 
     /**
-     * @return array
+     * @return list<NodeInterface>
      */
-    public function getChildNodes();
+    public function getChildNodes(): array;
 
-    /**
-     * @param NodeInterface $childNode
-     */
-    public function appendChild(NodeInterface $childNode);
+    public function appendChild(NodeInterface $childNode): void;
 
-    /**
-     * @return NodeInterface
-     */
-    public function getParent();
+    public function getParent(): ?NodeInterface;
 
-    /**
-     * @param NodeInterface $parent
-     */
-    public function setParent(NodeInterface $parent);
+    public function setParent(NodeInterface $parent): void;
 }

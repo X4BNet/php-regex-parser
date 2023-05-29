@@ -2,20 +2,24 @@
 
 namespace RegexParser;
 
+/**
+ * @template T
+ * @implements StreamInterface<T>
+ */
 class Stream implements StreamInterface
 {
     /**
-     * @var array
+     * @var list<T>
      */
-    protected $input;
+    protected array $input;
 
     /**
      * @var int
      */
-    protected $cursor;
+    protected int $cursor;
 
     /**
-     * @param array $input
+     * @param list<T> $input
      */
     public function __construct(array $input)
     {
@@ -24,7 +28,7 @@ class Stream implements StreamInterface
     }
 
     /**
-     * @return mixed
+     * @return T|false
      */
     public function next()
     {
@@ -38,27 +42,22 @@ class Stream implements StreamInterface
     }
 
     /**
-     * @return mixed
+     * @return T
      */
     public function current()
     {
         return $this->input[$this->cursor];
     }
 
-    /**
-     * @return bool
-     */
-    public function hasNext()
+    public function hasNext(): bool
     {
         return $this->cursor < count($this->input) - 1;
     }
 
     /**
-     * @param int $index
-     *
-     * @return mixed|false
+     * @return T|false
      */
-    public function readAt($index)
+    public function readAt(int $index)
     {
         return $this->cursor + $index < count($this->input) ? $this->input[$this->cursor + $index] : false;
     }
@@ -66,30 +65,29 @@ class Stream implements StreamInterface
     /**
      * @return int
      */
-    public function cursor()
+    public function cursor(): int
     {
         return $this->cursor;
     }
 
     /**
-     * @return array
+     * @return list<T>
      */
-    public function input()
+    public function input(): array
     {
         return $this->input;
     }
 
     /**
-     * @param int   $index
-     * @param mixed $value
+     * @param T $value
      */
-    public function replace($index, $value)
+    public function replace(int $index, $value): void
     {
         $this->input[$index] = $value;
     }
 
     /**
-     * @return Stream
+     * @return self<T>
      */
     public function clone(): self
     {

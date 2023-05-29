@@ -11,13 +11,7 @@ use RegexParser\StreamInterface;
 
 class HatParserPass extends AbstractParserPass
 {
-    /**
-     * @param StreamInterface $stream
-     * @param string|null     $parentPass
-     *
-     * @return Stream
-     */
-    public function parseStream(StreamInterface $stream, $parentPass = null)
+    public function parseStream(StreamInterface $stream, ?string $parentPass = null): StreamInterface
     {
         $result = array();
 
@@ -33,14 +27,14 @@ class HatParserPass extends AbstractParserPass
                     $childNodes = $stream->input();
                     array_shift($childNodes); // Remove ^
 
-                    return new Stream(array(new ExclusionNode(
-                        $this
-                            ->parser
-                            ->parseStream(new Stream($childNodes), 'BracketBlockParserPass', array(
-                                'BracketBlockParserPass',
-                            ))
-                            ->input()
-                    )));
+                    return new Stream([
+                        new ExclusionNode(
+                            $this
+                                ->parser
+                                ->parseStream(new Stream($childNodes), 'BracketBlockParserPass', ['BracketBlockParserPass'])
+                                ->input()
+                        )
+                    ]);
                 }
 
                 $result[] = new BeginNode(

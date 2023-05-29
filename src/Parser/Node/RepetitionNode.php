@@ -3,34 +3,27 @@
 namespace RegexParser\Parser\Node;
 
 use RegexParser\Parser\AbstractNode;
+use RegexParser\Parser\NodeInterface;
 
 class RepetitionNode extends AbstractNode
 {
     /**
-     * @param int|null $min
-     * @param int|null $max
-     * @param array    $childNodes
+     * @param list<NodeInterface> $childNodes
      */
-    public function __construct($min, $max, array $childNodes)
+    public function __construct(?int $min, ?int $max, array $childNodes)
     {
-        parent::__construct('repetition', array(
+        parent::__construct('repetition', [
             'min' => $min,
             'max' => $max,
-        ), $childNodes);
+        ], $childNodes);
     }
 
-    /**
-     * @return int|null
-     */
-    public function getMin()
+    public function getMin(): ?int
     {
         return $this->value['min'];
     }
 
-    /**
-     * @return int|null
-     */
-    public function getMax()
+    public function getMax(): ?int
     {
         return $this->value['max'];
     }

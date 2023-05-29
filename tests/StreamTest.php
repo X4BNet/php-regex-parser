@@ -6,17 +6,19 @@ use RegexParser\Stream;
 
 class StreamTest extends \PHPUnit\Framework\TestCase
 {
-    private $input;
+    /** @var list<string> */
+    private array $input;
 
-    private $stream;
+    /** @var Stream<string> */
+    private Stream $stream;
 
     public function setUp(): void
     {
-        $this->input = array('a', 'b', 'k');
+        $this->input = ['a', 'b', 'k'];
         $this->stream = new Stream($this->input);
     }
 
-    public function testItShouldReturnTheNextDatumWhenICallNextMethod()
+    public function testItShouldReturnTheNextDatumWhenICallNextMethod(): void
     {
         $this->assertEquals('a', $this->stream->next());
         $this->assertEquals('b', $this->stream->next());
@@ -24,7 +26,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->stream->next());
     }
 
-    public function testItShouldReturnADatumRelativeToTheCurrentCursorWhenICallReadAtMethod()
+    public function testItShouldReturnADatumRelativeToTheCurrentCursorWhenICallReadAtMethod(): void
     {
         $this->stream->next();
         $this->assertEquals('a', $this->stream->readAt(0));
@@ -33,7 +35,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('k', $this->stream->readAt(1));
     }
 
-    public function testItShouldReturnTrueIfItHasNextDatumFalseOtherwiseWhenICallHasNextMethod()
+    public function testItShouldReturnTrueIfItHasNextDatumFalseOtherwiseWhenICallHasNextMethod(): void
     {
         $this->assertTrue($this->stream->hasNext());
         $this->stream->next();
@@ -43,7 +45,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->stream->hasNext());
     }
 
-    public function testItShouldReturnTheContentOfTheStreamWhenICallInputMethod()
+    public function testItShouldReturnTheContentOfTheStreamWhenICallInputMethod(): void
     {
         $this->assertEquals($this->input, $this->stream->input());
     }

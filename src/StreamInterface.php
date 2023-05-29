@@ -2,48 +2,42 @@
 
 namespace RegexParser;
 
+/**
+ * @template-covariant T
+ */
 interface StreamInterface
 {
     /**
-     * @return mixed
+     * @return T|false
      */
     public function next();
 
     /**
-     * @param int $index
-     *
-     * @return mixed
+     * @return T|false
      */
-    public function readAt($index);
+    public function readAt(int $index);
 
     /**
-     * @return mixed
+     * @return T
      */
     public function current();
 
     /**
-     * @return array
+     * @return list<T>
      */
-    public function input();
+    public function input(): array;
+
+    public function hasNext(): bool;
+
+    public function cursor(): int;
 
     /**
-     * @return bool
-     */
-    public function hasNext();
-
-    /**
-     * @return int
-     */
-    public function cursor();
-
-    /**
-     * @param int   $index
      * @param mixed $value
      */
-    public function replace($index, $value);
+    public function replace(int $index, $value): void;
 
     /**
-     * @return StreamInterface
+     * @return StreamInterface<T>
      */
     public function clone(): StreamInterface;
 }

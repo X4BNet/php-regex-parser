@@ -5,31 +5,24 @@ namespace RegexParser\Parser;
 abstract class AbstractNode implements NodeInterface
 {
     /**
-     * @var array
+     * @var list<NodeInterface>
      */
-    protected $childNodes = array();
+    protected array $childNodes = [];
 
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
     /**
      * @var null|mixed
      */
     protected $value = null;
 
-    /**
-     * @var ?NodeInterface
-     */
-    protected $parent = null;
+    protected ?NodeInterface $parent = null;
 
     /**
-     * @param string $name
-     * @param mixed  $value
-     * @param array  $childNodes
+     * @param mixed $value
+     * @param list<NodeInterface> $childNodes
      */
-    public function __construct($name, $value, $childNodes = array())
+    public function __construct(string $name, $value, array $childNodes = [])
     {
         $this->name = $name;
         $this->value = $value;
@@ -40,26 +33,17 @@ abstract class AbstractNode implements NodeInterface
         }
     }
 
-    /**
-     * @return NodeInterface
-     */
-    public function getParent()
+    public function getParent(): ?NodeInterface
     {
         return $this->parent;
     }
 
-    /**
-     * @param NodeInterface $parent
-     */
-    public function setParent(NodeInterface $parent)
+    public function setParent(NodeInterface $parent): void
     {
         $this->parent = $parent;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -73,17 +57,14 @@ abstract class AbstractNode implements NodeInterface
     }
 
     /**
-     * @return array
+     * @return list<NodeInterface>
      */
-    public function getChildNodes()
+    public function getChildNodes(): array
     {
         return $this->childNodes;
     }
 
-    /**
-     * @param NodeInterface $childNode
-     */
-    public function appendChild(NodeInterface $childNode)
+    public function appendChild(NodeInterface $childNode): void
     {
         $this->childNodes[] = $childNode;
     }

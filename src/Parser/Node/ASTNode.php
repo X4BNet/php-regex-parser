@@ -3,11 +3,12 @@
 namespace RegexParser\Parser\Node;
 
 use RegexParser\Parser\AbstractNode;
+use RegexParser\Parser\NodeInterface;
 
 class ASTNode extends AbstractNode
 {
     /**
-     * @param array $childNodes
+     * @param list<NodeInterface> $childNodes
      */
     public function __construct(array $childNodes)
     {

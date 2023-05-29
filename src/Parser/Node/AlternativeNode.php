@@ -3,16 +3,12 @@
 namespace RegexParser\Parser\Node;
 
 use RegexParser\Parser\AbstractNode;
+use RegexParser\Parser\NodeInterface;
 
 class AlternativeNode extends AbstractNode
 {
     /**
-     * @var bool
-     */
-    protected $isSubPattern;
-
-    /**
-     * @param array $childNodes
+     * @param list<NodeInterface> $childNodes
      */
     public function __construct(array $childNodes)
     {

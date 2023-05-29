@@ -3,7 +3,9 @@
 namespace RegexParser\Parser;
 
 use RegexParser\Lexer\Lexer;
+use RegexParser\Lexer\TokenInterface;
 use RegexParser\Lexer\TokenStream;
+use RegexParser\Parser\Exception\ParserException;
 use RegexParser\Parser\Node\ASTNode;
 use RegexParser\Parser\ParserPass\AlternativeParserPass;
 use RegexParser\Parser\ParserPass\BracketBlockParserPass;
@@ -19,14 +21,11 @@ use RegexParser\StreamInterface;
 class Parser
 {
     /**
-     * @var array
+     * @var list<ParserPassInterface>
      */
-    protected $parserPasses = array();
+    protected array $parserPasses = [];
 
-    /**
-     * @return Parser
-     */
-    public static function create()
+    public static function create(): self
     {
         $parser = new self();
         $parser->registerParserPass(new CommentParserPass()); // will remove all comments
@@ -42,23 +41,19 @@ class Parser
         return $parser;
     }
 
-    /**
-     * @param ParserPassInterface $parserPass
-     */
-    public function registerParserPass(ParserPassInterface $parserPass)
+    public function registerParserPass(ParserPassInterface $parserPass): void
     {
         $parserPass->setParser($this);
         $this->parserPasses[] = $parserPass;
     }
 
     /**
-     * @param StreamInterface $stream
-     * @param string|null     $parentPass
-     * @param array           $excludedPasses
-     *
-     * @return StreamInterface
+     * @param StreamInterface<TokenInterface|NodeInterface> $stream
+     * @return StreamInterface<TokenInterface|NodeInterface>
+     * @param list<string> $excludedPasses
+     * @throws ParserException
      */
-    public function parseStream(StreamInterface $stream, $parentPass = null, $excludedPasses = array())
+    public function parseStream(StreamInterface $stream, ?string $parentPass = null, array $excludedPasses = []): StreamInterface
     {
         foreach ($this->parserPasses as $parserPass) {
             if (!in_array($parserPass->getName(), $excludedPasses)) {
@@ -69,12 +64,7 @@ class Parser
         return $stream;
     }
 
-    /**
-     * @param string $input
-     *
-     * @return ASTNode
-     */
-    public function parse($input)
+    public function parse(string $input): ASTNode
     {
         $lexer = Lexer::create($input);
         $outputStream = $this->parseStream(new TokenStream($lexer));

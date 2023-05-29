@@ -7,31 +7,24 @@ class EscapeToken extends Token
     /**
      * @var bool
      */
-    protected $isExclusionSequence;
+    protected bool $isExclusionSequence;
 
     /**
-     * @param string $name
-     * @param mixed  $value
-     * @param bool   $isExclusionSequence
+     * @param mixed $value
      */
-    public function __construct($name, $value, $isExclusionSequence = false)
+    public function __construct(string $name, $value, bool $isExclusionSequence = false)
     {
         parent::__construct($name, $value);
+
         $this->isExclusionSequence = $isExclusionSequence;
     }
 
-    /**
-     * @param bool $isExclusionSequence
-     */
-    public function setIsExclusionSequence($isExclusionSequence)
+    public function setIsExclusionSequence(bool $isExclusionSequence): void
     {
         $this->isExclusionSequence = $isExclusionSequence;
     }
 
-    /**
-     * @return bool
-     */
-    public function isExclusionSequence()
+    public function isExclusionSequence(): bool
     {
         return $this->isExclusionSequence;
     }

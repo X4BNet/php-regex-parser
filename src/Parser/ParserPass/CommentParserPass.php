@@ -5,24 +5,18 @@ namespace RegexParser\Parser\ParserPass;
 use RegexParser\Lexer\TokenInterface;
 use RegexParser\Parser\AbstractParserPass;
 use RegexParser\Parser\Exception\ParserException;
+use RegexParser\Parser\NodeInterface;
 use RegexParser\Stream;
 use RegexParser\StreamInterface;
 
 class CommentParserPass extends AbstractParserPass
 {
-    /**
-     * @param StreamInterface $stream
-     * @param string|null     $parentPass
-     *
-     * @throws ParserException
-     *
-     * @return Stream
-     */
-    public function parseStream(StreamInterface $stream, $parentPass = null)
+    public function parseStream(StreamInterface $stream, ?string $parentPass = null): StreamInterface
     {
         $commentFound = false;
-        $stack = array();
-        $result = array();
+        $stack = [];
+        /** @var list<TokenInterface> $result */
+        $result = [];
 
         while ($token = $stream->next()) {
             if ($stream->cursor() < 2 || !($token instanceof TokenInterface)) {

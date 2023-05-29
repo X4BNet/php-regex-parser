@@ -4,24 +4,21 @@ namespace RegexParser\Lexer;
 
 use RegexParser\Stream;
 
+/**
+ * @extends Stream<TokenInterface>
+ */
 class TokenStream extends Stream
 {
-    /**
-     * @var Lexer
-     */
-    protected $lexer;
+    protected Lexer $lexer;
 
-    /**
-     * @param Lexer $lexer
-     */
     public function __construct(Lexer $lexer)
     {
         $this->lexer = $lexer;
-        parent::__construct(array());
+        parent::__construct([]);
     }
 
     /**
-     * @return mixed
+     * @return TokenInterface|false
      */
     public function next()
     {
@@ -36,12 +33,7 @@ class TokenStream extends Stream
         return parent::next();
     }
 
-    /**
-     * @param int $index
-     *
-     * @return mixed
-     */
-    public function readAt($index)
+    public function readAt(int $index): TokenInterface
     {
         if ($index > 0 && $this->lexer->getStream()->cursor() - $this->cursor < $index) {
             $i = 0;
@@ -54,10 +46,7 @@ class TokenStream extends Stream
         return parent::readAt($index);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasNext()
+    public function hasNext(): bool
     {
         if ($this->cursor < $this->lexer->getStream()->cursor()) {
             return true;

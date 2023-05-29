@@ -13,14 +13,9 @@ use RegexParser\StreamInterface;
 class RepetitionParserPass extends AbstractParserPass
 {
     /**
-     * @param StreamInterface $stream
-     * @param string|null     $parentPass
-     *
      * @throws ParserException
-     *
-     * @return Stream
      */
-    public function parseStream(StreamInterface $stream, $parentPass = null)
+    public function parseStream(StreamInterface $stream, ?string $parentPass = null): StreamInterface
     {
         $blockFound = false;
         $stack = array(

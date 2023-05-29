@@ -10,9 +10,9 @@ use RegexParser\Parser\Parser;
 
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
-    protected $parser;
+    protected Parser $parser;
 
-    protected $formatter;
+    protected XMLFormatter $formatter;
 
     public function setUp(): void
     {
@@ -23,7 +23,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider patternProvider
      */
-    public function testPattern($input, $expectedOutput, $filename)
+    public function testPattern(string $input, string $expectedOutput, string $filename): void
     {
         $expectedOutputDOM = new DOMDocument('1.0', 'utf-8');
         $expectedOutputDOM->preserveWhiteSpace = false;
@@ -40,7 +40,10 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function patternProvider()
+    /**
+     * @return list<array{string, string, string}>
+     */
+    public function patternProvider(): array
     {
         $data = array();
 
@@ -48,13 +51,18 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $iterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
 
         foreach ($iterator as $file) {
+            assert($file instanceof \SplFileInfo);
+
             if (!$file->isFile() || $file->getExtension() !== 'txt') {
                 continue;
             }
 
             $content = file_get_contents($file->getPathName());
-            $data[] = array_map('trim', explode('----', $content));
-            $data[count($data) - 1][] = $file->getFilename();
+            $entry = array_map('trim', explode('----', $content, 2));
+            assert(count($entry) === 2);
+
+            $entry[] = $file->getFilename();
+            $data[] = $entry;
         }
 
         return $data;

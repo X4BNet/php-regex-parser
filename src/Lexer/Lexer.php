@@ -6,24 +6,13 @@ use RegexParser\Lexer\Exception\LexerException;
 
 class Lexer
 {
-    /**
-     * @var StringStream
-     */
-    protected $stream;
+    protected StringStream $stream;
 
     /**
-     * @var string
+     * @var array<string, string>
      */
-    protected $currentChar;
+    protected static ?array $lexemeMap = null;
 
-    /**
-     * @var null|array
-     */
-    protected static $lexemeMap = null;
-
-    /**
-     * @param StringStream $stream
-     */
     public function __construct(StringStream $stream)
     {
         $this->stream = $stream;
@@ -33,28 +22,19 @@ class Lexer
         }
     }
 
-    /**
-     * @param string $input
-     *
-     * @return Lexer
-     */
-    public static function create($input)
+    public static function create(string $input): Lexer
     {
         return new self(new StringStream($input));
     }
 
-    /**
-     * @return StringStream
-     */
-    public function getStream()
+    public function getStream(): StringStream
     {
         return $this->stream;
     }
 
     /**
-     * @throws LexerException
-     *
      * @return Token|EscapeToken|false
+     * @throws LexerException
      */
     public function nextToken()
     {
@@ -112,11 +92,10 @@ class Lexer
     }
 
     /**
+     * @return EscapeToken
      * @throws LexerException
-     *
-     * @return EscapeToken|void
      */
-    protected function readUnicode()
+    protected function readUnicode(): EscapeToken
     {
         $isExclusionSequence = $this->stream->next() === 'P';
         $isWithBrace = $this->stream->next() === '{';
@@ -150,45 +129,25 @@ class Lexer
         throw new LexerException(sprintf('Unknown unicode token %s at %s', $token, $this->stream->cursor()));
     }
 
-    /**
-     * @param string $char
-     *
-     * @return bool
-     */
-    protected function isWhitespace($char)
+    protected function isWhitespace(string $char): bool
     {
         // IE treats non-breaking space as \u00A0
         return ($char === ' ' || $char === "\r" || $char === "\t" ||
                 $char === "\n" || $char === "\v" || $char === "\u00A0");
     }
 
-    /**
-     * @param string $char
-     *
-     * @return bool
-     */
-    protected function isInteger($char)
+    protected function isInteger(string $char): bool
     {
         return $char >= '0' && $char <= '9';
     }
 
-    /**
-     * @param string $char
-     *
-     * @return bool
-     */
-    protected function isAlpha($char)
+    protected function isAlpha(string $char): bool
     {
         return ($char >= 'a' && $char <= 'z') ||
                ($char >= 'A' && $char <= 'Z');
     }
 
-    /**
-     * @param string $char
-     *
-     * @return bool
-     */
-    protected function isNewLine($char)
+    protected function isNewLine(string $char): bool
     {
         return $char === "\r" || $char === "\n";
     }

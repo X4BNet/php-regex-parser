@@ -2,25 +2,20 @@
 
 namespace RegexParser\Parser;
 
+use RegexParser\Lexer\TokenInterface;
+use RegexParser\Parser\Exception\ParserException;
 use RegexParser\StreamInterface;
 
 interface ParserPassInterface
 {
-    /**
-     * @param Parser $parser
-     */
-    public function setParser(Parser $parser);
+    public function setParser(Parser $parser): void;
 
     /**
-     * @param StreamInterface $stream
-     * @param string|null     $parentPass
-     *
-     * @return \RegexParser\Stream
+     * @param StreamInterface<TokenInterface|NodeInterface> $stream
+     * @return StreamInterface<TokenInterface|NodeInterface>
+     * @throws ParserException
      */
-    public function parseStream(StreamInterface $stream, $parentPass);
+    public function parseStream(StreamInterface $stream, ?string $parentPass = null): StreamInterface;
 
-    /**
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 }

@@ -2,14 +2,12 @@
 
 namespace RegexParser\Parser\Node;
 
+use RegexParser\Lexer\TokenInterface;
 use RegexParser\Parser\AbstractNode;
 
 class TokenNode extends AbstractNode
 {
-    /**
-     * @param mixed $token
-     */
-    public function __construct($token)
+    public function __construct(TokenInterface $token)
     {
         parent::__construct('token', $token);
     }

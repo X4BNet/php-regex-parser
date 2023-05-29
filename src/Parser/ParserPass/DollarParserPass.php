@@ -2,6 +2,7 @@
 
 namespace RegexParser\Parser\ParserPass;
 
+use RegexParser\Lexer\Token;
 use RegexParser\Lexer\TokenInterface;
 use RegexParser\Parser\AbstractParserPass;
 use RegexParser\Parser\Node\EndNode;
@@ -10,15 +11,9 @@ use RegexParser\StreamInterface;
 
 class DollarParserPass extends AbstractParserPass
 {
-    /**
-     * @param StreamInterface $stream
-     * @param string|null     $parentPass
-     *
-     * @return Stream
-     */
-    public function parseStream(StreamInterface $stream, $parentPass = null)
+    public function parseStream(StreamInterface $stream, ?string $parentPass = null): StreamInterface
     {
-        $result = array();
+        $result = [];
 
         while ($token = $stream->next()) {
             $result[] = $token;
@@ -33,7 +28,7 @@ class DollarParserPass extends AbstractParserPass
             $result[count($result) - 2] = new EndNode(
                 $this
                         ->parser
-                        ->parseStream(new Stream(array($result[count($result) - 2])))
+                        ->parseStream(new Stream([$result[count($result) - 2]]))
                         ->input()
             );
             array_pop($result);

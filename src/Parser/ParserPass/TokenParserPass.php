@@ -10,13 +10,7 @@ use RegexParser\StreamInterface;
 
 class TokenParserPass extends AbstractParserPass
 {
-    /**
-     * @param StreamInterface $stream
-     * @param string|null     $parentPass
-     *
-     * @return Stream
-     */
-    public function parseStream(StreamInterface $stream, $parentPass = null)
+    public function parseStream(StreamInterface $stream, ?string $parentPass = null): StreamInterface
     {
         $result = array();
 

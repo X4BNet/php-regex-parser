@@ -3,28 +3,26 @@
 namespace RegexParser\Parser\Node;
 
 use RegexParser\Parser\AbstractNode;
+use RegexParser\Parser\NodeInterface;
 
 class BlockNode extends AbstractNode
 {
     /**
      * @var bool
      */
-    protected $isSubPattern;
+    protected bool $isSubPattern;
 
     /**
-     * @param array $childNodes
-     * @param bool  $isSubPattern
+     * @param list<NodeInterface> $childNodes
      */
-    public function __construct(array $childNodes, $isSubPattern = false)
+    public function __construct(array $childNodes, bool $isSubPattern = false)
     {
         parent::__construct('block', null, $childNodes);
+
         $this->isSubPattern = $isSubPattern;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSubPattern()
+    public function isSubPattern(): bool
     {
         return $this->isSubPattern;
     }
