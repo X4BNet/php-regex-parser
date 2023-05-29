@@ -2,16 +2,15 @@
 
 namespace RegexParser\Test;
 
-use PHPUnit_Framework_TestCase;
 use RegexParser\Lexer\StringStream;
 
-class StringStreamTest extends PHPUnit_Framework_TestCase
+class StringStreamTest extends \PHPUnit\Framework\TestCase
 {
     private $input;
 
     private $protected;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->input = 'abc';
         $this->stream = new StringStream($this->input);

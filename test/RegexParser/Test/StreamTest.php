@@ -2,16 +2,15 @@
 
 namespace RegexParser\Test;
 
-use PHPUnit_Framework_TestCase;
 use RegexParser\Stream;
 
-class StreamTest extends PHPUnit_Framework_TestCase
+class StreamTest extends \PHPUnit\Framework\TestCase
 {
     private $input;
 
     private $stream;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->input = array('a', 'b', 'k');
         $this->stream = new Stream($this->input);

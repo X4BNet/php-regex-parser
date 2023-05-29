@@ -3,19 +3,18 @@
 namespace RegexParser\Test\Parser;
 
 use DOMDocument;
-use PHPUnit_Framework_TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexParser\Formatter\XMLFormatter;
 use RegexParser\Parser\Parser;
 
-class ParserTest extends PHPUnit_Framework_TestCase
+class ParserTest extends \PHPUnit\Framework\TestCase
 {
     protected $parser;
 
     protected $formatter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->parser = Parser::create();
         $this->formatter = new XMLFormatter();
