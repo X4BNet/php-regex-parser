@@ -40,7 +40,7 @@ class HatParserPass extends AbstractParserPass
                                 'BracketBlockParserPass',
                             ))
                             ->input()
-                        )));
+                    )));
                 }
 
                 $result[] = new BeginNode(

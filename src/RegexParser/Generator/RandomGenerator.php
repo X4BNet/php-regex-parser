@@ -189,8 +189,10 @@ class RandomGenerator extends AbstractGenerator
             return '';
         }
 
-        if ($token->is('T_PERIOD') &&
-             (!($node->getParent() instanceof BlockNode) || ($node->getParent() instanceof BlockNode && $node->getParent()->isSubPattern()))) {
+        if (
+            $token->is('T_PERIOD') &&
+             (!($node->getParent() instanceof BlockNode) || ($node->getParent() instanceof BlockNode && $node->getParent()->isSubPattern()))
+        ) {
             $range = range('a', 'Z');
 
             return $range[mt_rand(0, count($range) - 1)];

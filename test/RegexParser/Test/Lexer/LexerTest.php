@@ -42,7 +42,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
 
         $lexer = new Lexer($stringStreamProphecy->reveal());
 
-        foreach ($input as $key=>$char) {
+        foreach ($input as $key => $char) {
             if ($key === 13 || $key === 15) {
                 // For escaping
                 continue;

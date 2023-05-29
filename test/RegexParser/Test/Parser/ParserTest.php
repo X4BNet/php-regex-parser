@@ -34,9 +34,9 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $xml = $this->formatter->format($ast);
 
         $this->assertEquals(
-          $expectedOutputDOM->saveXML(),
-          $xml->saveXML(),
-          sprintf('%s does not match the generated xml', $filename)
+            $expectedOutputDOM->saveXML(),
+            $xml->saveXML(),
+            sprintf('%s does not match the generated xml', $filename)
         );
     }
 
@@ -59,5 +59,4 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
         return $data;
     }
-
 }

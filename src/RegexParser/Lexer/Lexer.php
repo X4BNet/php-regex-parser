@@ -29,7 +29,7 @@ class Lexer
         $this->stream = $stream;
 
         if (self::$lexemeMap === null) {
-            self::$lexemeMap = array_flip(json_decode(file_get_contents(__DIR__.'/Resource/config/tokens.json'), true));
+            self::$lexemeMap = array_flip(json_decode(file_get_contents(__DIR__ . '/Resource/config/tokens.json'), true));
         }
     }
 
@@ -62,9 +62,11 @@ class Lexer
             return false;
         }
 
-        if (isset(self::$lexemeMap[$char]) &&
+        if (
+            isset(self::$lexemeMap[$char]) &&
             mb_substr(self::$lexemeMap[$char], 0, strlen('T_UNICODE')) !== 'T_UNICODE' &&
-            mb_substr(self::$lexemeMap[$char], 0, strlen('T_ANY')) !== 'T_ANY') {
+            mb_substr(self::$lexemeMap[$char], 0, strlen('T_ANY')) !== 'T_ANY'
+        ) {
             return new Token(self::$lexemeMap[$char], $char);
         }
 
@@ -96,7 +98,10 @@ class Lexer
                 return new EscapeToken(self::$lexemeMap[$readAt1], $readAt1);
             }
 
-            if (isset(self::$lexemeMap[mb_strtolower($readAt1)]) && mb_substr(self::$lexemeMap[mb_strtolower($readAt1)], 0, strlen('T_ANY')) === 'T_ANY') {
+            if (
+                isset(self::$lexemeMap[mb_strtolower($readAt1)]) &&
+                mb_substr(self::$lexemeMap[mb_strtolower($readAt1)], 0, strlen('T_ANY')) === 'T_ANY'
+            ) {
                 return new EscapeToken(self::$lexemeMap[mb_strtolower($readAt1)], $readAt1, true);
             }
 

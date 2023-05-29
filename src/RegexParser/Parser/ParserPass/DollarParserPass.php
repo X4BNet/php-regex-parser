@@ -25,9 +25,11 @@ class DollarParserPass extends AbstractParserPass
         }
 
         // Looking for `$` pattern
-        if ($result[count($result) - 1] instanceof TokenInterface &&
+        if (
+            $result[count($result) - 1] instanceof TokenInterface &&
             $result[count($result) - 1]->is('T_DOLLAR') &&
-            count($result) > 1) {
+            count($result) > 1
+        ) {
             $result[count($result) - 2] = new EndNode(
                 $this
                         ->parser

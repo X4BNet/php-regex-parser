@@ -29,13 +29,13 @@ class CharacterClassParserPass extends AbstractParserPass
             }
 
             // Looking for `*-*` pattern
-            if ($token->is('T_MINUS') &&
+            if (
+                $token->is('T_MINUS') &&
                 $stream->readAt(-1) instanceof TokenInterface &&
                 $stream->readAt(1) instanceof TokenInterface &&
                 !in_array($stream->cursor() - 1, $used) &&
                 $this->isPreviousNextTokenValid($stream->readAt(-1), $stream->readAt(1), $parentPass)
             ) {
-
                 // Remove *
                 array_pop($result);
 
@@ -72,7 +72,6 @@ class CharacterClassParserPass extends AbstractParserPass
             return $previous->getValue() < $next->getValue();
         } elseif ($previous->is('T_CHAR') && $next->is('T_CHAR')) {
             if ($next->getValue() <= 'Z') { // Need to be first because Z < z
-
                 return $previous->getValue() >= 'A';
             } elseif ($next->getValue() <= 'z') {
                 return $previous->getValue() >= 'a';

@@ -99,10 +99,14 @@ class RepetitionParserPass extends AbstractParserPass
                 $blockFound = false;
                 array_pop($result);
 
-                $min = (int) implode('', array_map(function ($t) { return $t->getValue(); }, $stack[0]));
+                $min = (int) implode('', array_map(function ($t) {
+                    return $t->getValue();
+                }, $stack[0]));
 
                 if (count($stack[1]) > 0) {
-                    $max = (int) implode('', array_map(function ($t) { return $t->getValue(); }, $stack[1]));
+                    $max = (int) implode('', array_map(function ($t) {
+                        return $t->getValue();
+                    }, $stack[1]));
                     if ($max !== null && $min >= $max) {
                         throw new ParserException('Min must be greater than max in a repetition pattern');
                     }
