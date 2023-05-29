@@ -8,7 +8,7 @@ namespace RegexParser;
 interface StreamInterface
 {
     /**
-     * @return T|false
+     * @return ?T
      */
     public function next();
 

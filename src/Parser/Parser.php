@@ -49,7 +49,7 @@ class Parser
 
     /**
      * @param StreamInterface<TokenInterface|NodeInterface> $stream
-     * @return StreamInterface<TokenInterface|NodeInterface>
+     * @return StreamInterface<NodeInterface>
      * @param list<string> $excludedPasses
      * @throws ParserException
      */
@@ -61,7 +61,7 @@ class Parser
             }
         }
 
-        return $stream;
+        return self::assertNodeStream($stream);
     }
 
     /**
@@ -73,5 +73,37 @@ class Parser
         $outputStream = $this->parseStream(new TokenStream($lexer));
 
         return new ASTNode($outputStream->input());
+    }
+
+    /**
+     * @param mixed $stream
+     * @phpstan-assert StreamInterface<TokenInterface> $stream
+     * @return StreamInterface<TokenInterface>
+     */
+    public static function assertTokenStream($stream): StreamInterface
+    {
+        assert($stream instanceof StreamInterface);
+
+        foreach ($stream->input() as $item) {
+            assert($item instanceof TokenInterface);
+        }
+
+        return $stream;
+    }
+
+    /**
+     * @param mixed $stream
+     * @phpstan-assert StreamInterface<NodeInterface> $stream
+     * @return StreamInterface<NodeInterface>
+     */
+    public static function assertNodeStream($stream): StreamInterface
+    {
+        assert($stream instanceof StreamInterface);
+
+        foreach ($stream->input() as $item) {
+            assert($item instanceof NodeInterface);
+        }
+
+        return $stream;
     }
 }

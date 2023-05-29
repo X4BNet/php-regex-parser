@@ -6,6 +6,7 @@ use RegexParser\Lexer\TokenInterface;
 use RegexParser\Parser\AbstractParserPass;
 use RegexParser\Parser\Node\BeginNode;
 use RegexParser\Parser\Node\ExclusionNode;
+use RegexParser\Parser\Parser;
 use RegexParser\Stream;
 use RegexParser\StreamInterface;
 

@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$input of class RegexParser\\\\Stream constructor expects list\\<RegexParser\\\\Lexer\\\\TokenInterface\\|RegexParser\\\\Parser\\\\NodeInterface\\>, array\\<int\\<0, max\\>, RegexParser\\\\Lexer\\\\TokenInterface\\|RegexParser\\\\Parser\\\\NodeInterface\\> given\\.$#"
+			count: 1
+			path: src/Parser/ParserPass/DollarParserPass.php

@@ -6,6 +6,8 @@ use RegexParser\Lexer\Token;
 use RegexParser\Lexer\TokenInterface;
 use RegexParser\Parser\AbstractParserPass;
 use RegexParser\Parser\Node\EndNode;
+use RegexParser\Parser\NodeInterface;
+use RegexParser\Parser\Parser;
 use RegexParser\Stream;
 use RegexParser\StreamInterface;
 
@@ -28,7 +30,9 @@ class DollarParserPass extends AbstractParserPass
             $result[count($result) - 2] = new EndNode(
                 $this
                         ->parser
-                        ->parseStream(new Stream([$result[count($result) - 2]]))
+                        ->parseStream(
+                            new Stream([$result[count($result) - 2]])
+                        )
                         ->input()
             );
             array_pop($result);

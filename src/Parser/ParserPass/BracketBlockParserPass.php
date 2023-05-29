@@ -6,6 +6,7 @@ use RegexParser\Lexer\TokenInterface;
 use RegexParser\Parser\AbstractParserPass;
 use RegexParser\Parser\Exception\ParserException;
 use RegexParser\Parser\Node\BlockNode;
+use RegexParser\Parser\Parser;
 use RegexParser\Stream;
 use RegexParser\StreamInterface;
 
@@ -18,7 +19,8 @@ class BracketBlockParserPass extends AbstractParserPass
     {
         /** @var int $blocksFound */
         $blocksFound = 0;
-        $stack = array();
+        /** @var list<TokenInterface> $stack */
+        $stack = [];
         $result = array();
 
         while ($token = $stream->next()) {
@@ -44,12 +46,14 @@ class BracketBlockParserPass extends AbstractParserPass
                     $result[] = new BlockNode(
                         $this
                             ->parser
-                            ->parseStream(new Stream($stack), 'BracketBlockParserPass', array(
+                            ->parseStream(
+                                new Stream($stack),
                                 'BracketBlockParserPass',
-                            ))
+                                ['BracketBlockParserPass']
+                            )
                             ->input()
                     );
-                    $stack = array();
+                    $stack = [];
                 } else {
                     $stack[] = $token;
                 }

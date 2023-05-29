@@ -27,8 +27,10 @@ class CommentParserPass extends AbstractParserPass
             // Looking for `(?#` pattern
             if (
                 $token->is('T_POUND') &&
-                $stream->readAt(-1)->is('T_QUESTION') &&
-                $stream->readAt(-2)->is('T_LEFT_PARENTHESIS') &&
+                ($tmp = $stream->readAt(-1)) instanceof TokenInterface &&
+                $tmp->is('T_QUESTION') &&
+                ($tmp = $stream->readAt(-2)) instanceof TokenInterface &&
+                $tmp->is('T_LEFT_PARENTHESIS') &&
                 !$commentFound
             ) {
                 $commentFound = true;

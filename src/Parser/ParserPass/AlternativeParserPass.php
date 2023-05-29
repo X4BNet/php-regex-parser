@@ -6,6 +6,7 @@ use RegexParser\Lexer\TokenInterface;
 use RegexParser\Parser\AbstractParserPass;
 use RegexParser\Parser\Node\AlternativeNode;
 use RegexParser\Parser\Node\TokenNode;
+use RegexParser\Parser\NodeInterface;
 use RegexParser\Stream;
 use RegexParser\StreamInterface;
 use RegexParser\Parser\Exception\ParserException;
@@ -32,10 +33,11 @@ class AlternativeParserPass extends AbstractParserPass
                 }
 
                 if ($result[count($result) - 1] instanceof AlternativeNode) {
-                    if ($stream->readAt(1) instanceof TokenInterface) {
-                        $result[count($result) - 1]->appendChild(new TokenNode($stream->next()));
+                    if (($next = $stream->next()) instanceof TokenInterface) {
+                        $result[count($result) - 1]->appendChild(new TokenNode($next));
                     } else {
-                        $result[count($result) - 1]->appendChild($stream->next());
+                        assert($next !== null);
+                        $result[count($result) - 1]->appendChild($next);
                     }
                     continue;
                 }
@@ -46,13 +48,15 @@ class AlternativeParserPass extends AbstractParserPass
                 if ($previous instanceof TokenInterface) {
                     $previous = new TokenNode($previous);
                 }
+                assert($previous !== null);
 
                 $next = $stream->next();
                 if ($next instanceof TokenInterface) {
                     $next = new TokenNode($next);
                 }
+                assert($next !== null);
 
-                $result[] = new AlternativeNode(array($previous, $next));
+                $result[] = new AlternativeNode([$previous, $next]);
             } else {
                 $result[] = $token;
             }

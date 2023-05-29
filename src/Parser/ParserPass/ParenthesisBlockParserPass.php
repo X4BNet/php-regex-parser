@@ -20,7 +20,7 @@ class ParenthesisBlockParserPass extends AbstractParserPass
         $blocksFound = 0;
         /** @var list<TokenInterface> $stack */
         $stack = [];
-        $result = [];
+        $result = array();
 
         while ($token = $stream->next()) {
             if (!($token instanceof TokenInterface)) {
