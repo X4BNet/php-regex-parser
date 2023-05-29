@@ -54,7 +54,7 @@ class Lexer
     /**
      * @throws LexerException
      *
-     * @return Token|EscapeToken|void
+     * @return Token|EscapeToken|false
      */
     public function nextToken()
     {

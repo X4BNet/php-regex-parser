@@ -21,6 +21,7 @@ class BracketBlockParserPass extends AbstractParserPass
      */
     public function parseStream(StreamInterface $stream, $parentPass = null)
     {
+        /** @var int $blocksFound */
         $blocksFound = 0;
         $stack = array();
         $result = array();

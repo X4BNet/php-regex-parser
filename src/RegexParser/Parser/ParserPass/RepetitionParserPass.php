@@ -107,7 +107,7 @@ class RepetitionParserPass extends AbstractParserPass
                     $max = (int) implode('', array_map(function ($t) {
                         return $t->getValue();
                     }, $stack[1]));
-                    if ($max !== null && $min >= $max) {
+                    if (/*$max !== null &&*/ $min >= $max) {
                         throw new ParserException('Min must be greater than max in a repetition pattern');
                     }
                     $offset = 3; // +3 because of {,}

@@ -91,7 +91,7 @@ class Stream implements StreamInterface
     /**
      * @return Stream
      */
-    public function __clone()
+    public function clone(): self
     {
         return new self($this->input);
     }

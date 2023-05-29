@@ -76,6 +76,8 @@ class XMLFormatter extends AbstractFormatter
             $xmlNode = $this->formatDefaultNode($node);
         } elseif ($node instanceof EndNode) {
             $xmlNode = $this->formatDefaultNode($node);
+        } else {
+            throw new \RuntimeException('Unknown xml node');
         }
 
         foreach ($node->getChildNodes() as $childNode) {
@@ -150,10 +152,10 @@ class XMLFormatter extends AbstractFormatter
     protected function formatRepetitionNode(RepetitionNode $node)
     {
         $xmlNode = $this->createXmlNode($node->getName());
-        $xmlNode->setAttribute('min', $node->getMin());
+        $xmlNode->setAttribute('min', sprintf("%d", $node->getMin()));
 
         if ($node->getMax() !== null) {
-            $xmlNode->setAttribute('max', $node->getMax());
+            $xmlNode->setAttribute('max', sprintf("%d", $node->getMax()));
         }
 
         return $xmlNode;

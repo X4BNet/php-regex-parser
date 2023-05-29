@@ -8,6 +8,7 @@ use RegexParser\Parser\Node\AlternativeNode;
 use RegexParser\Parser\Node\TokenNode;
 use RegexParser\Stream;
 use RegexParser\StreamInterface;
+use RegexParser\Parser\Exception\ParserException;
 
 class AlternativeParserPass extends AbstractParserPass
 {

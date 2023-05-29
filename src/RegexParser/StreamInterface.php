@@ -45,5 +45,5 @@ interface StreamInterface
     /**
      * @return StreamInterface
      */
-    public function __clone();
+    public function clone(): StreamInterface;
 }

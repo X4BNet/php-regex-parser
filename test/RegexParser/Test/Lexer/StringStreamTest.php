@@ -6,18 +6,9 @@ use RegexParser\Lexer\StringStream;
 
 class StringStreamTest extends \PHPUnit\Framework\TestCase
 {
-    private $input;
-
-    private $protected;
-
-    public function setUp(): void
+    public function testItShouldConvertTheInputToArray(): void
     {
-        $this->input = 'abc';
-        $this->stream = new StringStream($this->input);
-    }
-
-    public function testItShouldConvertTheInputToArray()
-    {
-        $this->assertEquals(array('a', 'b', 'c'), $this->stream->input(), $this->stream->next());
+        $stream = new StringStream('abc');
+        $this->assertEquals(array('a', 'b', 'c'), $stream->input(), $stream->next());
     }
 }

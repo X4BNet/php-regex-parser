@@ -20,7 +20,7 @@ abstract class AbstractNode implements NodeInterface
     protected $value = null;
 
     /**
-     * @var null
+     * @var ?NodeInterface
      */
     protected $parent = null;
 

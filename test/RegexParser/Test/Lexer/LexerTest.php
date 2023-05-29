@@ -6,14 +6,16 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Promise\ReturnPromise;
 use RegexParser\Lexer\Lexer;
+use RegexParser\Lexer\StringStream;
+use function PHPStan\dumpType;
 
 class LexerTest extends \PHPUnit\Framework\TestCase
 {
     use ProphecyTrait;
 
-    public function testItShouldReturnNextTokenWhenICallNextTokenMethod()
+    public function testItShouldReturnNextTokenWhenICallNextTokenMethod(): void
     {
-        $stringStreamProphecy = $this->prophesize('RegexParser\Lexer\StringStream');
+        $stringStreamProphecy = $this->prophesize(StringStream::class);
 
         $input = array('^','[','_','a','-','z','0','-','9','-',']','+','(','\\','.','\\','\\');
         $inputReadAt = array('.', '\\');

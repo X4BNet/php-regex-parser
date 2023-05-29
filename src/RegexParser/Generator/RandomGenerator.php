@@ -11,6 +11,7 @@ use RegexParser\Parser\Node\CharacterClassNode;
 use RegexParser\Parser\Node\EndNode;
 use RegexParser\Parser\Node\RepetitionNode;
 use RegexParser\Parser\Node\TokenNode;
+use RegexParser\Parser\NodeInterface;
 use RegexParser\Parser\Parser;
 
 class RandomGenerator extends AbstractGenerator
@@ -50,7 +51,7 @@ class RandomGenerator extends AbstractGenerator
     /**
      * @param NodeInterface $node
      *
-     * @return string
+     * @return ?string
      */
     protected function printNode($node)
     {
@@ -69,6 +70,8 @@ class RandomGenerator extends AbstractGenerator
         } elseif ($node instanceof EndNode) {
             return $this->printEndNode($node);
         }
+
+        return null;
     }
 
     /**
@@ -189,9 +192,10 @@ class RandomGenerator extends AbstractGenerator
             return '';
         }
 
+        $parent = $node->getParent();
         if (
             $token->is('T_PERIOD') &&
-             (!($node->getParent() instanceof BlockNode) || ($node->getParent() instanceof BlockNode && $node->getParent()->isSubPattern()))
+             (!($parent instanceof BlockNode) || (/*$parent instanceof BlockNode &&*/ $parent->isSubPattern()))
         ) {
             $range = range('a', 'Z');
 
