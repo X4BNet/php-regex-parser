@@ -12,6 +12,6 @@ class AlternativeNode extends AbstractNode
      */
     public function __construct(array $childNodes)
     {
-        parent::__construct('alternative', null, $childNodes);
+        parent::__construct('alternative', $childNodes);
     }
 }

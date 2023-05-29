@@ -31,10 +31,7 @@ class XMLFormatter extends AbstractFormatter
         return $this->document;
     }
 
-    /**
-     * @param mixed $value
-     */
-    protected function createXmlNode(string $name, $value = null): \DOMElement
+    protected function createXmlNode(string $name, ?string $value = null): \DOMElement
     {
         if ($value !== null) {
             return $this->document->createElement($name, $value);

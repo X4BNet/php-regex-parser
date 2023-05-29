@@ -22,7 +22,11 @@ class Lexer
             if ($contents === false) {
                 throw new \RuntimeException('unable to read token file');
             }
-            self::$lexemeMap = array_flip(json_decode($contents, true, JSON_THROW_ON_ERROR));
+            $decoded = json_decode($contents, true, JSON_THROW_ON_ERROR);
+            if (!is_array($decoded)) {
+                throw new \RuntimeException('unable to read token file');
+            }
+            self::$lexemeMap = array_flip($decoded);
         }
     }
 
@@ -55,7 +59,7 @@ class Lexer
         }
 
         if ($this->isInteger($char)) {
-            return new Token('T_INTEGER', (int) $char);
+            return new Token('T_INTEGER', /*(int)*/ $char);
         }
 
         if ($this->isAlpha($char) || $this->isWhitespace($char)) {

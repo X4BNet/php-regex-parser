@@ -11,21 +11,14 @@ abstract class AbstractNode implements NodeInterface
 
     protected string $name;
 
-    /**
-     * @var null|mixed
-     */
-    protected $value = null;
-
     protected ?NodeInterface $parent = null;
 
     /**
-     * @param mixed $value
      * @param list<NodeInterface> $childNodes
      */
-    public function __construct(string $name, $value, array $childNodes = [])
+    public function __construct(string $name, array $childNodes = [])
     {
         $this->name = $name;
-        $this->value = $value;
         $this->childNodes = $childNodes;
 
         foreach ($this->childNodes as $childNode) {
@@ -46,14 +39,6 @@ abstract class AbstractNode implements NodeInterface
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
     }
 
     /**

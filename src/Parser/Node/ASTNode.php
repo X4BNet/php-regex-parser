@@ -12,6 +12,6 @@ class ASTNode extends AbstractNode
      */
     public function __construct(array $childNodes)
     {
-        parent::__construct('ast', null, $childNodes);
+        parent::__construct('ast', $childNodes);
     }
 }

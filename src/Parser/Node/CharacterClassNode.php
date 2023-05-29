@@ -6,21 +6,24 @@ use RegexParser\Parser\AbstractNode;
 
 class CharacterClassNode extends AbstractNode
 {
+    private TokenNode $start;
+    private TokenNode $end;
+
     public function __construct(TokenNode $start, TokenNode $end)
     {
-        parent::__construct('character-class', [
-            'start' => $start,
-            'end' => $end,
-        ]);
+        parent::__construct('character-class');
+
+        $this->start = $start;
+        $this->end = $end;
     }
 
     public function getStart(): TokenNode
     {
-        return $this->value['start'];
+        return $this->start;
     }
 
     public function getEnd(): TokenNode
     {
-        return $this->value['end'];
+        return $this->end;
     }
 }

@@ -8,8 +8,5 @@ interface TokenInterface
 
     public function getName(): string;
 
-    /**
-     * @return mixed
-     */
-    public function getValue();
+    public function getValue(): ?string;
 }

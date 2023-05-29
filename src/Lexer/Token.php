@@ -7,14 +7,14 @@ class Token implements TokenInterface
     protected string $name;
 
     /**
-     * @var mixed
+     * @var ?string
      */
     protected $value;
 
     /**
-     * @param mixed  $value
+     * @param ?string $value
      */
-    public function __construct(string $name, $value = null)
+    public function __construct(string $name, ?string $value = null)
     {
         $this->name = $name;
         $this->value = $value;
@@ -30,10 +30,7 @@ class Token implements TokenInterface
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->value;
     }

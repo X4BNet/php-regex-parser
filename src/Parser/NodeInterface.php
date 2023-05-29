@@ -7,11 +7,6 @@ interface NodeInterface
     public function getName(): string;
 
     /**
-     * @return mixed
-     */
-    public function getValue();
-
-    /**
      * @return list<NodeInterface>
      */
     public function getChildNodes(): array;

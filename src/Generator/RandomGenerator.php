@@ -119,9 +119,12 @@ class RandomGenerator extends AbstractGenerator
 
     protected function printCharacterClassNode(CharacterClassNode $node): string
     {
-        $range = range($node->getStart()->getValue()->getValue(), $node->getEnd()->getValue()->getValue());
+        $range = range(
+            (int) ($node->getStart()->getValue()->getValue() ?? 0),
+            (int) ($node->getEnd()->getValue()->getValue() ?? 0),
+        );
 
-        return $range[mt_rand(0, count($range) - 1)];
+        return (string) $range[mt_rand(0, count($range) - 1)];
     }
 
     protected function printRepetitionNode(RepetitionNode $node): string
@@ -162,6 +165,6 @@ class RandomGenerator extends AbstractGenerator
             return $range[mt_rand(0, count($range) - 1)];
         }
 
-        return $token->getValue();
+        return $token->getValue() ?? '';
     }
 }

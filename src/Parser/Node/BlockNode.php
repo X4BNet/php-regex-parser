@@ -17,7 +17,7 @@ class BlockNode extends AbstractNode
      */
     public function __construct(array $childNodes, bool $isSubPattern = false)
     {
-        parent::__construct('block', null, $childNodes);
+        parent::__construct('block', $childNodes);
 
         $this->isSubPattern = $isSubPattern;
     }
