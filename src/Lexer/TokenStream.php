@@ -17,15 +17,12 @@ class TokenStream extends Stream
         parent::__construct([]);
     }
 
-    /**
-     * @return TokenInterface|false
-     */
-    public function next()
+    public function next(): ?TokenInterface
     {
         $token = $this->lexer->nextToken();
 
-        if ($token === false) {
-            return false;
+        if ($token === null) {
+            return null;
         }
 
         $this->input[] = $token;
@@ -33,7 +30,7 @@ class TokenStream extends Stream
         return parent::next();
     }
 
-    public function readAt(int $index): TokenInterface
+    public function readAt(int $index): ?TokenInterface
     {
         if ($index > 0 && $this->lexer->getStream()->cursor() - $this->cursor < $index) {
             $i = 0;

@@ -3,7 +3,6 @@
 namespace RegexParser\Lexer;
 
 use RegexParser\Stream;
-use RegexParser\StreamInterface;
 
 /**
  * @extends Stream<string>

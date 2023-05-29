@@ -4,6 +4,7 @@ namespace RegexParser\Generator;
 
 use RegexParser\AbstractGenerator;
 use RegexParser\Lexer\EscapeToken;
+use RegexParser\Parser\Exception\ParserException;
 use RegexParser\Parser\Node\AlternativeNode;
 use RegexParser\Parser\Node\BeginNode;
 use RegexParser\Parser\Node\BlockNode;
@@ -17,43 +18,37 @@ use RegexParser\Parser\Parser;
 class RandomGenerator extends AbstractGenerator
 {
     /**
-     * @param string $pattern
-     *
-     * @return RandomGenerator
+     * @throws ParserException
      */
-    public static function create($pattern)
+    public static function create(string $pattern): self
     {
         $parser = Parser::create();
 
         return new self($parser->parse($pattern));
     }
 
-    /**
-     * @param int $seed
-     *
-     * @return string
-     */
-    public function generate($seed = null)
+    public function generate(?int $seed = null): string
     {
         if ($seed !== null) {
             mt_srand($seed);
         }
 
-        $output = '';
+        try {
+            $output = '';
 
-        foreach ($this->ast->getChildNodes() as $childNode) {
-            $output .= $this->printNode($childNode);
+            foreach ($this->ast->getChildNodes() as $childNode) {
+                $output .= $this->printNode($childNode);
+            }
+
+            return $output;
+        } finally {
+            if ($seed !== null) {
+                mt_srand();
+            }
         }
-
-        return $output;
     }
 
-    /**
-     * @param NodeInterface $node
-     *
-     * @return ?string
-     */
-    protected function printNode($node)
+    protected function printNode(NodeInterface $node): ?string
     {
         if ($node instanceof AlternativeNode) {
             return $this->printAlternativeNode($node);
@@ -74,24 +69,14 @@ class RandomGenerator extends AbstractGenerator
         return null;
     }
 
-    /**
-     * @param AlternativeNode $node
-     *
-     * @return string
-     */
-    protected function printAlternativeNode(AlternativeNode $node)
+    protected function printAlternativeNode(AlternativeNode $node): string
     {
         $childNodes = $node->getChildNodes();
 
         return $this->printNode($childNodes[mt_rand(0, count($childNodes) - 1)]);
     }
 
-    /**
-     * @param BlockNode $node
-     *
-     * @return string
-     */
-    protected function printBlockNode(BlockNode $node)
+    protected function printBlockNode(BlockNode $node): string
     {
         $childNodes = $node->getChildNodes();
 
@@ -108,12 +93,7 @@ class RandomGenerator extends AbstractGenerator
         return $this->printNode($childNodes[mt_rand(0, count($childNodes) - 1)]);
     }
 
-    /**
-     * @param BeginNode $node
-     *
-     * @return string
-     */
-    protected function printBeginNode(BeginNode $node)
+    protected function printBeginNode(BeginNode $node): string
     {
         $childNodes = $node->getChildNodes();
         $output = '';
@@ -125,12 +105,7 @@ class RandomGenerator extends AbstractGenerator
         return $output;
     }
 
-    /**
-     * @param EndNode $node
-     *
-     * @return string
-     */
-    protected function printEndNode(EndNode $node)
+    protected function printEndNode(EndNode $node): string
     {
         $childNodes = $node->getChildNodes();
         $output = '';
@@ -142,24 +117,14 @@ class RandomGenerator extends AbstractGenerator
         return $output;
     }
 
-    /**
-     * @param CharacterClassNode $node
-     *
-     * @return string
-     */
-    protected function printCharacterClassNode(CharacterClassNode $node)
+    protected function printCharacterClassNode(CharacterClassNode $node): string
     {
         $range = range($node->getStart()->getValue()->getValue(), $node->getEnd()->getValue()->getValue());
 
         return $range[mt_rand(0, count($range) - 1)];
     }
 
-    /**
-     * @param RepetitionNode $node
-     *
-     * @return string
-     */
-    protected function printRepetitionNode(RepetitionNode $node)
+    protected function printRepetitionNode(RepetitionNode $node): string
     {
         if ($node->getMax() !== null) {
             $count = mt_rand($node->getMin(), $node->getMax());
@@ -178,12 +143,7 @@ class RandomGenerator extends AbstractGenerator
         return $output;
     }
 
-    /**
-     * @param TokenNode $node
-     *
-     * @return string
-     */
-    protected function printTokenNode(TokenNode $node)
+    protected function printTokenNode(TokenNode $node): string
     {
         $token = $node->getValue();
 

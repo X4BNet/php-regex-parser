@@ -4,10 +4,7 @@ namespace RegexParser\Lexer;
 
 class Token implements TokenInterface
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
     /**
      * @var mixed
@@ -15,29 +12,20 @@ class Token implements TokenInterface
     protected $value;
 
     /**
-     * @param string $name
      * @param mixed  $value
      */
-    public function __construct($name, $value = null)
+    public function __construct(string $name, $value = null)
     {
         $this->name = $name;
         $this->value = $value;
     }
 
-    /**
-     * @param string $tokenName
-     *
-     * @return bool
-     */
-    public function is($tokenName)
+    public function is(string $tokenName): bool
     {
         return $this->name === $tokenName;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -50,10 +38,7 @@ class Token implements TokenInterface
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('%s -> %s', $this->name, $this->value);
     }

@@ -58,6 +58,8 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             }
 
             $content = file_get_contents($file->getPathName());
+            assert($content != false);
+
             $entry = array_map('trim', explode('----', $content, 2));
             assert(count($entry) === 2);
 

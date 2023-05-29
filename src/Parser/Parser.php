@@ -64,6 +64,9 @@ class Parser
         return $stream;
     }
 
+    /**
+     * @throws ParserException
+     */
     public function parse(string $input): ASTNode
     {
         $lexer = Lexer::create($input);

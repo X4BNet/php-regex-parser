@@ -18,8 +18,9 @@ class ParenthesisBlockParserPass extends AbstractParserPass
     {
         /** @var int $blocksFound */
         $blocksFound = 0;
-        $stack = array();
-        $result = array();
+        /** @var list<TokenInterface> $stack */
+        $stack = [];
+        $result = [];
 
         while ($token = $stream->next()) {
             if (!($token instanceof TokenInterface)) {
@@ -48,7 +49,7 @@ class ParenthesisBlockParserPass extends AbstractParserPass
                             ->input(),
                         true
                     );
-                    $stack = array();
+                    $stack = [];
                 } else {
                     $stack[] = $token;
                 }

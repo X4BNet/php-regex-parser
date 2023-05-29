@@ -13,7 +13,7 @@ interface StreamInterface
     public function next();
 
     /**
-     * @return T|false
+     * @return ?T
      */
     public function readAt(int $index);
 

@@ -28,12 +28,12 @@ class Stream implements StreamInterface
     }
 
     /**
-     * @return T|false
+     * @return ?T
      */
     public function next()
     {
         if (!$this->hasNext()) {
-            return false;
+            return null;
         }
 
         ++$this->cursor;
@@ -55,11 +55,11 @@ class Stream implements StreamInterface
     }
 
     /**
-     * @return T|false
+     * @return ?T
      */
     public function readAt(int $index)
     {
-        return $this->cursor + $index < count($this->input) ? $this->input[$this->cursor + $index] : false;
+        return $this->cursor + $index < count($this->input) ? $this->input[$this->cursor + $index] : null;
     }
 
     /**
@@ -83,7 +83,7 @@ class Stream implements StreamInterface
      */
     public function replace(int $index, $value): void
     {
-        $this->input[$index] = $value;
+        array_splice($this->input, $index, 1, [$value]);
     }
 
     /**

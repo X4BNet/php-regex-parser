@@ -9,8 +9,6 @@
         }
     ],
     "require-dev": {
-        "ext-dom": "*",
-        "ext-json": "*",
         "jangregor/phpstan-prophecy": "^1.0",
         "phpspec/prophecy": "^1.17",
         "phpspec/prophecy-phpunit": "^2",
@@ -30,7 +28,9 @@
         }
     },
     "require": {
-        "php": "^7.4 || ^8.0"
+        "php": "^7.4 || ^8.0",
+        "ext-dom": "*",
+        "ext-json": "*"
     },
     "config": {
         "sort-packages": true

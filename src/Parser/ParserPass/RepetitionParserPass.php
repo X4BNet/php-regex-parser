@@ -43,8 +43,9 @@ class RepetitionParserPass extends AbstractParserPass
                 if ($child instanceof TokenInterface) {
                     $child = new TokenNode($child);
                 }
+                assert($child !== null);
 
-                $result[] = new RepetitionNode(0, null, array($child));
+                $result[] = new RepetitionNode(0, null, [$child]);
 
                 // We reinject the current node into the stream to handle case like +? and so on...
                 $stream->replace($stream->cursor(), $result[count($result) - 1]);
@@ -59,8 +60,9 @@ class RepetitionParserPass extends AbstractParserPass
                 if ($child instanceof TokenInterface) {
                     $child = new TokenNode($child);
                 }
+                assert($child !== null);
 
-                $result[] = new RepetitionNode(1, null, array($child));
+                $result[] = new RepetitionNode(1, null, [$child]);
 
                 // We reinject the current node into the stream to handle case like +? and so on...
                 $stream->replace($stream->cursor(), $result[count($result) - 1]);
@@ -75,6 +77,7 @@ class RepetitionParserPass extends AbstractParserPass
                 if ($child instanceof TokenInterface) {
                     $child = new TokenNode($child);
                 }
+                assert($child !== null);
 
                 $result[] = new RepetitionNode(0, 1, array($child));
 
@@ -115,6 +118,7 @@ class RepetitionParserPass extends AbstractParserPass
                 if ($child instanceof TokenInterface) {
                     $child = new TokenNode($child);
                 }
+                assert($child !== null);
 
                 $result[] = new RepetitionNode($min, $max, array($child));
 

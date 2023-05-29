@@ -23,7 +23,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('a', $this->stream->next());
         $this->assertEquals('b', $this->stream->next());
         $this->assertEquals('k', $this->stream->next());
-        $this->assertFalse($this->stream->next());
+        $this->assertNull($this->stream->next());
     }
 
     public function testItShouldReturnADatumRelativeToTheCurrentCursorWhenICallReadAtMethod(): void

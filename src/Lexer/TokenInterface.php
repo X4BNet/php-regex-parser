@@ -4,17 +4,9 @@ namespace RegexParser\Lexer;
 
 interface TokenInterface
 {
-    /**
-     * @param string $tokenName
-     *
-     * @return bool
-     */
-    public function is($tokenName);
+    public function is(string $tokenName): bool;
 
-    /**
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 
     /**
      * @return mixed

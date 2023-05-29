@@ -18,7 +18,11 @@ class Lexer
         $this->stream = $stream;
 
         if (self::$lexemeMap === null) {
-            self::$lexemeMap = array_flip(json_decode(file_get_contents(__DIR__ . '/Resource/config/tokens.json'), true));
+            $contents = file_get_contents(__DIR__ . '/Resource/config/tokens.json');
+            if ($contents === false) {
+                throw new \RuntimeException('unable to read token file');
+            }
+            self::$lexemeMap = array_flip(json_decode($contents, true, JSON_THROW_ON_ERROR));
         }
     }
 
@@ -33,13 +37,13 @@ class Lexer
     }
 
     /**
-     * @return Token|EscapeToken|false
+     * @return Token|EscapeToken|null
      * @throws LexerException
      */
     public function nextToken()
     {
-        if (($char = $this->stream->next()) === false) {
-            return false;
+        if (($char = $this->stream->next()) === null) {
+            return null;
         }
 
         if (
@@ -60,7 +64,7 @@ class Lexer
 
         if ($char === '\\') {
             $readAt1 = $this->stream->readAt(1);
-            if ($readAt1 === '\\') {
+            if ($readAt1 === '\\' || $readAt1 === null) {
                 $this->stream->next();
 
                 return new Token('T_BACKSLASH', '\\');

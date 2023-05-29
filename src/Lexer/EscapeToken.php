@@ -19,11 +19,6 @@ class EscapeToken extends Token
         $this->isExclusionSequence = $isExclusionSequence;
     }
 
-    public function setIsExclusionSequence(bool $isExclusionSequence): void
-    {
-        $this->isExclusionSequence = $isExclusionSequence;
-    }
-
     public function isExclusionSequence(): bool
     {
         return $this->isExclusionSequence;
