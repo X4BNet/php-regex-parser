@@ -7,4 +7,4 @@ parameters:
     level: 5
     paths:
         - src
-        - test
+        - tests

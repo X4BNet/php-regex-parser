@@ -14,7 +14,7 @@
   <coverage/>
   <testsuites>
     <testsuite name="RegexParser Test Suite">
-      <directory>test/RegexParser/Test</directory>
+      <directory>tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>

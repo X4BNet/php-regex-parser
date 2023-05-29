@@ -44,7 +44,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         $data = array();
 
-        $dirIterator = new RecursiveDirectoryIterator(__DIR__ . '/../../../fixture/pattern');
+        $dirIterator = new RecursiveDirectoryIterator(__DIR__ . '/../fixture/pattern');
         $iterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
 
         foreach ($iterator as $file) {
