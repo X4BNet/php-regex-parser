@@ -96,6 +96,9 @@ class XMLFormatter extends AbstractFormatter
         if ($node->isNonCapture()) {
             $xmlNode->setAttribute('non-capture', 'true');
         }
+        if (null !== ($name = $node->getCaptureName())) {
+            $xmlNode->setAttribute('capture-name', $name);
+        }
 
         return $xmlNode;
     }

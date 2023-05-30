@@ -11,15 +11,18 @@ class BlockNode extends AbstractNode
 
     private bool $isNonCapture;
 
+    private ?string $captureName;
+
     /**
      * @param list<NodeInterface> $childNodes
      */
-    public function __construct(array $childNodes, bool $isSubPattern = false, bool $isNonCapture = false)
+    public function __construct(array $childNodes, bool $isSubPattern = false, bool $isNonCapture = false, ?string $captureName = null)
     {
         parent::__construct('block', $childNodes);
 
         $this->isSubPattern = $isSubPattern;
         $this->isNonCapture = $isNonCapture;
+        $this->captureName = $captureName;
     }
 
     public function isSubPattern(): bool
@@ -30,5 +33,10 @@ class BlockNode extends AbstractNode
     public function isNonCapture(): bool
     {
         return $this->isNonCapture;
+    }
+
+    public function getCaptureName(): ?string
+    {
+        return $this->captureName;
     }
 }

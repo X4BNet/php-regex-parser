@@ -1,0 +1,8 @@
+(?<FOO_BAR>a)
+----
+<?xml version="1.0" encoding="utf-8"?>
+<ast>
+    <block sub-pattern="true" capture-name="FOO_BAR">
+        <token type="char">a</token>
+    </block>
+</ast>
