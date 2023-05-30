@@ -21,6 +21,7 @@ class ParenthesisBlockParserPass extends AbstractParserPass
         /** @var list<TokenInterface> $stack */
         $stack = [];
         $result = array();
+        $isNonCapture = false;
 
         while ($token = $stream->next()) {
             if (!($token instanceof TokenInterface)) {
@@ -36,6 +37,18 @@ class ParenthesisBlockParserPass extends AbstractParserPass
             if ($token->is('T_LEFT_PARENTHESIS')) {
                 $blocksFound++;
 
+                // Null capture group
+                if (
+                    ($tmp = $stream->readAt(1)) instanceof TokenInterface &&
+                    $tmp->is('T_QUESTION') &&
+                    ($tmp = $stream->readAt(2)) instanceof TokenInterface &&
+                    $tmp->is('T_COLON')
+                ) {
+                    $stream->next();
+                    $stream->next();
+                    $isNonCapture = true;
+                }
+
                 if ($blocksFound > 1) {
                     // We matched a nested parenthesis so we ignore it
                     $stack[] = $token;
@@ -47,7 +60,8 @@ class ParenthesisBlockParserPass extends AbstractParserPass
                             ->parser
                             ->parseStream(new Stream($stack))
                             ->input(),
-                        true
+                        true,
+                        $isNonCapture
                     );
                     $stack = [];
                 } else {

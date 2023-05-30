@@ -93,6 +93,9 @@ class XMLFormatter extends AbstractFormatter
     {
         $xmlNode = $this->createXmlNode($node->getName());
         $xmlNode->setAttribute('sub-pattern', $node->isSubPattern() ? 'true' : 'false');
+        if ($node->isNonCapture()) {
+            $xmlNode->setAttribute('non-capture', 'true');
+        }
 
         return $xmlNode;
     }

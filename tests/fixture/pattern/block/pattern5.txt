@@ -1,0 +1,8 @@
+(?:a)
+----
+<?xml version="1.0" encoding="utf-8"?>
+<ast>
+    <block sub-pattern="true" non-capture="true">
+        <token type="char">a</token>
+    </block>
+</ast>

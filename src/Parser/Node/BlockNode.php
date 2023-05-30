@@ -7,23 +7,28 @@ use RegexParser\Parser\NodeInterface;
 
 class BlockNode extends AbstractNode
 {
-    /**
-     * @var bool
-     */
-    protected bool $isSubPattern;
+    private bool $isSubPattern;
+
+    private bool $isNonCapture;
 
     /**
      * @param list<NodeInterface> $childNodes
      */
-    public function __construct(array $childNodes, bool $isSubPattern = false)
+    public function __construct(array $childNodes, bool $isSubPattern = false, bool $isNonCapture = false)
     {
         parent::__construct('block', $childNodes);
 
         $this->isSubPattern = $isSubPattern;
+        $this->isNonCapture = $isNonCapture;
     }
 
     public function isSubPattern(): bool
     {
         return $this->isSubPattern;
+    }
+
+    public function isNonCapture(): bool
+    {
+        return $this->isNonCapture;
     }
 }
