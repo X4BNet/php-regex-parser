@@ -32,10 +32,10 @@ class Parser
         $parser->registerParserPass(new BracketBlockParserPass());
         $parser->registerParserPass(new ParenthesisBlockParserPass());
         $parser->registerParserPass(new CharacterClassParserPass());
-        $parser->registerParserPass(new AlternativeParserPass());
-        $parser->registerParserPass(new RepetitionParserPass()); // must be the last one just before dollar pass
         $parser->registerParserPass(new DollarParserPass());
         $parser->registerParserPass(new HatParserPass());
+        $parser->registerParserPass(new AlternativeParserPass());
+        $parser->registerParserPass(new RepetitionParserPass()); // must be the last one just before dollar pass
         $parser->registerParserPass(new TokenParserPass()); // must be the last one just before token pass
 
         return $parser;

@@ -6,68 +6,67 @@ use RegexParser\Lexer\Token;
 use RegexParser\Lexer\TokenInterface;
 use RegexParser\Parser\AbstractParserPass;
 use RegexParser\Parser\Node\AlternativeNode;
+use RegexParser\Parser\Node\BlockNode;
 use RegexParser\Parser\Node\TokenNode;
+use RegexParser\Parser\NodeInterface;
 use RegexParser\Stream;
 use RegexParser\StreamInterface;
 use RegexParser\Parser\Exception\ParserException;
 
 class AlternativeParserPass extends AbstractParserPass
 {
+    private function block($stack): BlockNode
+    {
+        $parts = $this
+            ->parser
+            ->parseStream(
+                new Stream($stack),
+                'AlternativeParserPass',
+                []
+            )
+            ->input();
+        return new BlockNode($parts, true);
+    }
     /**
      * @throws ParserException
      */
     public function parseStream(StreamInterface $stream, ?string $parentPass = null): StreamInterface
     {
-        $result = array();
+        $result = null;
+        $parts = array();
 
         while ($token = $stream->next()) {
             if (!($token instanceof TokenInterface)) {
-                $result[] = $token;
+                $parts[] = $token;
                 continue;
             }
 
             // Looking for `*|*` pattern
             if ($token->is('T_PIPE')) {
-                if ($stream->cursor() < 1) {
-                    $previous = new TokenNode(new Token('T_CHAR', ''));
+                if(empty($parts)) {
+                    $previous = new BlockNode([new TokenNode(new Token('T_CHAR', ''))]);
                 } else {
-                    if ($result[count($result) - 1] instanceof AlternativeNode) {
-                        if (($next = $stream->next()) instanceof TokenInterface) {
-                            $result[count($result) - 1]->appendChild(new TokenNode($next));
-                        } else {
-                            assert($next !== null);
-                            $result[count($result) - 1]->appendChild($next);
-                        }
-                        continue;
-                    }
-                    // Remove previous
-                    array_pop($result);
-
-                    $previous = $stream->readAt(-1);
-                    if ($previous instanceof TokenInterface) {
-                        $previous = new TokenNode($previous);
-                    }
+                    $previous = $this->block($parts);
+                    $parts = [];
                 }
-                assert($previous !== null);
 
-                if($stream->hasNext()) {
-                    $next = $stream->next();
-                    if ($next instanceof TokenInterface) {
-                        $next = new TokenNode($next);
-                    }
+                if(!$result){
+                    $result = new AlternativeNode([$previous]);
                 } else {
-                    $next = new TokenNode(new Token('T_CHAR', ''));
+                    $result->appendChild($previous);
                 }
-                assert($next !== null);
-
-                $result[] = new AlternativeNode([$previous, $next]);
             } else {
-                $result[] = $token;
+                $parts[] = new TokenNode($token);
             }
         }
 
         unset($stream);
 
-        return new Stream($result);
+        if(empty($result)) {
+            return new Stream($parts);
+        }
+
+        $result->appendChild($this->block($parts));
+        return new Stream([$result]);
     }
 }
