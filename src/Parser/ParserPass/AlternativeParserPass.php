@@ -2,11 +2,11 @@
 
 namespace RegexParser\Parser\ParserPass;
 
+use RegexParser\Lexer\Token;
 use RegexParser\Lexer\TokenInterface;
 use RegexParser\Parser\AbstractParserPass;
 use RegexParser\Parser\Node\AlternativeNode;
 use RegexParser\Parser\Node\TokenNode;
-use RegexParser\Parser\NodeInterface;
 use RegexParser\Stream;
 use RegexParser\StreamInterface;
 use RegexParser\Parser\Exception\ParserException;
@@ -26,33 +26,37 @@ class AlternativeParserPass extends AbstractParserPass
                 continue;
             }
 
-            // Looking for `*-*` pattern
+            // Looking for `*|*` pattern
             if ($token->is('T_PIPE')) {
-                if ($stream->cursor() < 1 || !$stream->hasNext()) {
-                    throw new ParserException('Alternative must have a previous and a next token');
-                }
-
-                if ($result[count($result) - 1] instanceof AlternativeNode) {
-                    if (($next = $stream->next()) instanceof TokenInterface) {
-                        $result[count($result) - 1]->appendChild(new TokenNode($next));
-                    } else {
-                        assert($next !== null);
-                        $result[count($result) - 1]->appendChild($next);
+                if ($stream->cursor() < 1) {
+                    $previous = new TokenNode(new Token('T_CHAR', ''));
+                } else {
+                    if ($result[count($result) - 1] instanceof AlternativeNode) {
+                        if (($next = $stream->next()) instanceof TokenInterface) {
+                            $result[count($result) - 1]->appendChild(new TokenNode($next));
+                        } else {
+                            assert($next !== null);
+                            $result[count($result) - 1]->appendChild($next);
+                        }
+                        continue;
                     }
-                    continue;
-                }
-                // Remove previous
-                array_pop($result);
+                    // Remove previous
+                    array_pop($result);
 
-                $previous = $stream->readAt(-1);
-                if ($previous instanceof TokenInterface) {
-                    $previous = new TokenNode($previous);
+                    $previous = $stream->readAt(-1);
+                    if ($previous instanceof TokenInterface) {
+                        $previous = new TokenNode($previous);
+                    }
                 }
                 assert($previous !== null);
 
-                $next = $stream->next();
-                if ($next instanceof TokenInterface) {
-                    $next = new TokenNode($next);
+                if($stream->hasNext()) {
+                    $next = $stream->next();
+                    if ($next instanceof TokenInterface) {
+                        $next = new TokenNode($next);
+                    }
+                } else {
+                    $next = new TokenNode(new Token('T_CHAR', ''));
                 }
                 assert($next !== null);
 
